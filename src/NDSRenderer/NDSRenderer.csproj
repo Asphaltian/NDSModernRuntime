@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NDSRenderer.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Silk.NET.MoltenVK.Native" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.Vulkan" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.Vulkan.Extensions.KHR" Version="2.23.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NTRModern\NTRModern.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ShaderEntry Include="DrawFrame" Source="Frame.slang" />
+    <ShaderEntry Include="Rasterize" Source="Rasterize.slang" />
+    <ShaderEntry Include="FinishRendering" Source="Rasterize.slang" />
+  </ItemGroup>
+
+  <Target Name="LocateShaders">
+    <PropertyGroup>
+      <ShaderDirectory>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', 'Shaders'))</ShaderDirectory>
+      <SPIRVDirectory>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', '$(IntermediateOutputPath)'))</SPIRVDirectory>
+    </PropertyGroup>
+    <ItemGroup>
+      <ShaderSource Include="$(ShaderDirectory)*.slang" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CompileShaders" DependsOnTargets="LocateShaders" Inputs="@(ShaderSource);$(MSBuildProjectFullPath)" Outputs="@(ShaderEntry->'$(SPIRVDirectory)%(Identity).spv')">
+    <Exec Command="slangc &quot;$(ShaderDirectory)%(ShaderEntry.Source)&quot; -target spirv -entry %(ShaderEntry.Identity) -o &quot;$(SPIRVDirectory)%(ShaderEntry.Identity).spv&quot;" />
+  </Target>
+
+  <Target Name="EmbedShaders" BeforeTargets="AssignTargetPaths" DependsOnTargets="CompileShaders">
+    <ItemGroup>
+      <EmbeddedResource Include="@(ShaderEntry->'$(SPIRVDirectory)%(Identity).spv')" LogicalName="%(ShaderEntry.Identity).spv" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/NDSRecomp/" />
+  <Folder Name="/NDSRecomp/src/">
+    <Project Path="NDSRecomp/src/NDSRecomp/NDSRecomp.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/LibRecomp/LibRecomp.csproj" />
+    <Project Path="src/NDSRenderer/NDSRenderer.csproj" />
+    <Project Path="src/NTRModern/NTRModern.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LibRecomp.Tests/LibRecomp.Tests.csproj" />
+    <Project Path="tests/NDSRenderer.Tests/NDSRenderer.Tests.csproj" />
+    <Project Path="tests/NTRModern.Tests/NTRModern.Tests.csproj" />
+    <Project Path="tests/Recompilation.Tests/Recompilation.Tests.csproj" />
+  </Folder>
+</Solution>

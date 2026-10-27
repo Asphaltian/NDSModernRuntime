@@ -1,0 +1,3 @@
+[submodule "NDSRecomp"]
+	path = NDSRecomp
+	url = https://github.com/Asphaltian/NDSRecomp

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="LibRecomp" />
+    <InternalsVisibleTo Include="NTRModern.Tests" />
+    <InternalsVisibleTo Include="LibRecomp.Tests" />
+    <InternalsVisibleTo Include="Recompilation.Tests" />
+    <InternalsVisibleTo Include="NDSRenderer" />
+    <InternalsVisibleTo Include="NDSRenderer.Tests" />
+  </ItemGroup>
+
+</Project>
